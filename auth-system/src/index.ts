@@ -19,7 +19,19 @@ const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10
+})
+
+// =====================
+// HOME
+// =====================
+
+app.get('/', (c) => {
+  return c.json({
+    message: "Laundry API running"
+  })
 })
 
 // =====================
@@ -298,23 +310,17 @@ console.log("Database not available, auto finish disabled")
 }
 
 // =====================
-// HOME
-// =====================
-
-app.get('/', (c) => {
-return c.text('Laundry API')
-})
-
-// =====================
 // START SERVER
 // =====================
 
+const port = Number(process.env.PORT) || 3000
+
 serve({
 fetch: app.fetch,
-port: Number(process.env.PORT) || 3000
+port
 }, (info) => {
 
-console.log(`Server running http://localhost:${info.port}`)
+console.log(`Server running on port ${info.port}`)
 
 setInterval(autoFinishMachines,5000)
 
