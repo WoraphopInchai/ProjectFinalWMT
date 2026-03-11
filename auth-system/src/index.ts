@@ -315,13 +315,17 @@ console.log("Database not available, auto finish disabled")
 
 const port = Number(process.env.PORT) || 3000
 
-serve({
-fetch: app.fetch,
-port
-}, (info) => {
+serve(
+  {
+    fetch: app.fetch,
+    port: port,
+  },
+  (info) => {
+    console.log(`Server running on port ${info.port}`)
 
-console.log(`Server running on port ${info.port}`)
-
-setInterval(autoFinishMachines,5000)
-
-})
+    // auto check machine
+    setInterval(() => {
+      autoFinishMachines()
+    }, 5000)
+  }
+)
