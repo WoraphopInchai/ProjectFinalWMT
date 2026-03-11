@@ -1,3 +1,5 @@
+const API = window.location.origin
+
 document.addEventListener("DOMContentLoaded", () => {
 
 loadUserInfo()
@@ -90,7 +92,7 @@ queuePopupShown = false
 
 alert("You missed your turn")
 
-await fetch("http://localhost:3000/cancel",{
+await fetch(`${API}/cancel`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -149,7 +151,7 @@ popup.style.display = "none"
 
 queuePopupShown = false
 
-await fetch("http://localhost:3000/cancel",{
+await fetch(`${API}/cancel`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -188,7 +190,7 @@ document.getElementById("countdownPopup").style.display = "none"
 
 if(countdownMachine){
 
-await fetch("http://localhost:3000/cancel",{
+await fetch(`${API}/cancel`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -225,7 +227,7 @@ alert("Wrong machine")
 return
 }
 
-await fetch("http://localhost:3000/confirm-machine",{
+await fetch(`${API}/confirm-machine`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -289,7 +291,7 @@ popup.style.display = "none"
 
 alert("Reservation expired")
 
-await fetch("http://localhost:3000/cancel",{
+await fetch(`${API}/cancel`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -368,12 +370,12 @@ reservedMachine = null
 
 try{
 
-const res = await fetch("http://localhost:3000/machines")
+const res = await fetch(`${API}/machines`)
 const machines = await res.json()
 
 for(const machine of machines){
 
-const queueRes = await fetch(`http://localhost:3000/queue/${machine.machine_number}`)
+const queueRes = await fetch(`${API}/queue/${machine.machine_number}`)
 const queue = await queueRes.json()
 
 machine.queue_count = queue.length
@@ -548,7 +550,7 @@ async function reserveMachine(machineNumber){
 
 try{
 
-const res = await fetch("http://localhost:3000/reserve",{
+const res = await fetch(`${API}/reserve`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -619,7 +621,7 @@ async function cancelReservation(machineNumber){
 
 try{
 
-await fetch("http://localhost:3000/cancel",{
+await fetch(`${API}/cancel`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
@@ -674,7 +676,7 @@ alert("Please select a problem")
 return
 }
 
-await fetch("http://localhost:3000/report",{
+await fetch(`${API}/report`,{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
